@@ -2,7 +2,7 @@ class VenuesController < ApplicationController
 
   # Best available seats
   def best_seats
-
+    byebug
   end
 
   private
