@@ -1,3 +1,3 @@
 class Seat < ApplicationRecord
-  belongs_to :venue_id
+  belongs_to :venue
 end
