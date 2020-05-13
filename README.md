@@ -82,9 +82,9 @@ Params:
             "status": "AVAILABLE"
         },
         "a4": {
-            "id": "a2",
+            "id": "a4",
             "row": "a",
-            "column": 2,
+            "column": 4,
             "status": "AVAILABLE"
         }
     }
@@ -138,9 +138,9 @@ Params: Note: Add group option in venue > layout > group
             "status": "AVAILABLE"
         },
         "a4": {
-            "id": "a2",
+            "id": "a4",
             "row": "a",
-            "column": 2,
+            "column": 4,
             "status": "AVAILABLE"
         }
     }

@@ -20,15 +20,15 @@ class VenuesController < ApplicationController
   private
 
   def group
-    venue_params["group"]
+    venue_params["group"]&.to_i
   end
 
   def rows
-    venue_params["rows"]
+    venue_params["rows"].to_i
   end
 
   def columns
-    venue_params["columns"]
+    venue_params["columns"].to_i
   end
 
   def venue_params
