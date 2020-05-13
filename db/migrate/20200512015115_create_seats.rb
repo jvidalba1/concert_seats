@@ -5,7 +5,8 @@ class CreateSeats < ActiveRecord::Migration[6.0]
       t.string :row
       t.string :column
       t.string :status
-      t.references :venue_id, null: false, foreign_key: true
+      t.integer :value
+      t.references :venue, null: false, foreign_key: true
 
       t.timestamps
     end

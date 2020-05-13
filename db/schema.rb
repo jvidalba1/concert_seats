@@ -17,10 +17,11 @@ ActiveRecord::Schema.define(version: 2020_05_12_015115) do
     t.string "row"
     t.string "column"
     t.string "status"
-    t.integer "venue_id_id", null: false
+    t.integer "value"
+    t.integer "venue_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["venue_id_id"], name: "index_seats_on_venue_id_id"
+    t.index ["venue_id"], name: "index_seats_on_venue_id"
   end
 
   create_table "venues", force: :cascade do |t|
@@ -32,5 +33,5 @@ ActiveRecord::Schema.define(version: 2020_05_12_015115) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "seats", "venue_ids"
+  add_foreign_key "seats", "venues"
 end
