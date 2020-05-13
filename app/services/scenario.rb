@@ -1,5 +1,7 @@
 class Scenario
 
+  INITIAL_LETTER = 'a'
+
   def initialize(rows, columns)
     @rows = rows
     @columns = columns
@@ -7,14 +9,47 @@ class Scenario
     @venue = venue
   end
 
-  def best_seat(seats_params)
-    seat_names = seats_params.keys
+  def best_seats(seats_params, group)
+    if group
+      find_by_group(group)
+    else
+      seat_names = seats_params.keys
 
-    seat_values = seat_names.each_with_object(Hash.new(0)) do |seat_name, hsh|
-      seat = @venue.seats.find_by(name: seat_name)
-      hsh[seat_name] = seat ? seat.value : 0
+      seat_values = seat_names.each_with_object(Hash.new(0)) do |seat_name, hsh|
+        seat = @venue.seats.where(name: seat_name, status: "AVAILABLE").last
+        hsh[seat_name] = seat ? seat.value : 0
+      end
+      seat_values.key(seat_values.values.max)
     end
-    seat_values.key(seat_values.values.max)
+  end
+
+  def find_by_group(group)
+    seats = @venue.seats.available
+
+    groups = []
+    seats.each do |seat|
+      seat_column = seat.column.to_i
+
+      row = seat.row
+      final = {}
+      add = true
+      final["#{row}#{seat_column}"] = seat.value
+
+      ((seat_column + 1)..(seat_column + (group - 1))).each do |seat_column_number|
+        value = seat.next_seat(seat_column_number)
+
+        if value
+          final["#{row}#{seat_column_number}"] = value
+        else
+          add = false
+          break
+        end
+      end
+
+      groups << final if add
+    end
+
+    groups.sort { |group| group.sum { |k,v| v } }.first.keys
   end
 
   def columns_peak
@@ -28,16 +63,15 @@ class Scenario
   end
 
   def venue
-    @venue ||= Venue.new(rows: @rows, columns: @columns, name: "Concert")
+    Venue.new(rows: @rows, columns: @columns, name: "Concert")
   end
 
   def assign_seats(letter, c_index, row, index_column)
-    venue.seats << Seat.new(name: letter + c_index, row: letter, column: c_index, status: "AVAILABLE", value: row + index_column)
+    @venue.seats << Seat.new(name: letter + c_index, row: letter, column: c_index, status: "AVAILABLE", value: row + index_column)
   end
 
   def create
-
-    letter = "a"
+    letter = INITIAL_LETTER
     index_column = 1
     increment_index_column = true
 
@@ -60,7 +94,7 @@ class Scenario
       letter = letter.next
     end
 
-    if venue.save
+    if @venue.save
       true
     else
       false

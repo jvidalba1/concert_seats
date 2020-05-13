@@ -1,12 +1,11 @@
 class VenuesController < ApplicationController
 
-  # Best available seats
   def best_seats
     scenario = Scenario.new(rows, columns)
 
     if scenario.create
       render status: :ok, json: {
-        best_seat: scenario.best_seat(seat_params)
+        best_seats: scenario.best_seats(seat_params, group)
       }
     else
       render status: :unprocessable_entity, json: {
@@ -19,6 +18,10 @@ class VenuesController < ApplicationController
 
   private
 
+  def group
+    venue_params["group"]
+  end
+
   def rows
     venue_params["rows"]
   end
@@ -28,7 +31,7 @@ class VenuesController < ApplicationController
   end
 
   def venue_params
-    params.require(:venue).require(:layout).permit(:rows, :columns)
+    params.require(:venue).require(:layout).permit(:rows, :columns, :group)
   end
 
   def seat_params
