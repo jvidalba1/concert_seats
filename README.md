@@ -159,3 +159,7 @@ Response:
     ]
 }
 ```
+
+## Unit tests
+
+Run unit tests `rspec`
