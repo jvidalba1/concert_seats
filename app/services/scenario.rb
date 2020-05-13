@@ -9,18 +9,56 @@ class Scenario
     @venue = venue
   end
 
+  def create
+    letter = INITIAL_LETTER
+    index_column = 1
+    increment_index_column = true
+
+    (1..@rows).to_a.reverse.each do |row|
+      (1..@columns).to_a.each_with_index do |column, index|
+        assign_seats(letter, (index+1).to_s, row, index_column)
+
+        if index_column < @columns_peak && increment_index_column
+          index_column += 1
+        elsif @even && increment_index_column && index_column == @columns_peak
+          increment_index_column = false
+        else
+          increment_index_column = false
+          index_column -= 1
+        end
+      end
+
+      index_column = 1
+      increment_index_column = true
+      letter = letter.next
+    end
+
+    if @venue.save
+      true
+    else
+      false
+    end
+  end
+
   def best_seats(seats_params, group)
     if group
       find_by_group(group)
     else
       seat_names = seats_params.keys
 
-      seat_values = seat_names.each_with_object(Hash.new(0)) do |seat_name, hsh|
-        seat = @venue.seats.where(name: seat_name, status: "AVAILABLE").last
-        hsh[seat_name] = seat ? seat.value : 0
-      end
-      seat_values.key(seat_values.values.max)
+      find_best_seat(seat_names)
     end
+  end
+
+  private
+
+  def find_best_seat(seat_names)
+    seat_values = seat_names.each_with_object(Hash.new(0)) do |seat_name, hsh|
+      seat = @venue.seats.where(name: seat_name, status: "AVAILABLE").last
+      hsh[seat_name] = seat ? seat.value : 0
+    end
+
+    seat_values.key(seat_values.values.max)
   end
 
   def find_by_group(group)
@@ -68,36 +106,5 @@ class Scenario
 
   def assign_seats(letter, c_index, row, index_column)
     @venue.seats << Seat.new(name: letter + c_index, row: letter, column: c_index, status: "AVAILABLE", value: row + index_column)
-  end
-
-  def create
-    letter = INITIAL_LETTER
-    index_column = 1
-    increment_index_column = true
-
-    (1..@rows).to_a.reverse.each do |row|
-      (1..@columns).to_a.each_with_index do |column, index|
-        assign_seats(letter, (index+1).to_s, row, index_column)
-
-        if index_column < @columns_peak && increment_index_column
-          index_column += 1
-        elsif @even && increment_index_column && index_column == @columns_peak
-          increment_index_column = false
-        else
-          increment_index_column = false
-          index_column -= 1
-        end
-      end
-
-      index_column = 1
-      increment_index_column = true
-      letter = letter.next
-    end
-
-    if @venue.save
-      true
-    else
-      false
-    end
   end
 end

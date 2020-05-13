@@ -5,6 +5,7 @@ class VenuesController < ApplicationController
 
     if scenario.create
       render status: :ok, json: {
+        status: "success",
         best_seats: scenario.best_seats(seat_params, group)
       }
     else
