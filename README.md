@@ -57,6 +57,51 @@ React for the interface
 
 # README
 
+## Implementation
+
+Simulate a grid, each position has a name which is built by the row (letter) and column (number), for example, "a1" for the first position.
+Also, a value is given for each position of the grid depending on its rows and column.
+
+Column value calculation: The number of columns is divided by 2, if the column number is even two peak numbers are found, otherwise, only one peak is found.
+
+For example:
+For 6 columns: 6 / 2 = 3 ... 3 will be the peak, but as 6 is even, there will be two peaks: [1,2,3,3,2,1]
+For 5 columns: 5 / 2 = |2| ... 2 will be the peak, but as 5 is odd, there will be one peak: [1,2,3,2,1]
+
+Row value calculation: The number of the row is taken as the value
+
+At the end the summation of the two values will be the exact value for each position.
+
+For example:
+For 2 rows and 4 columns, it would be like this:
+
+Position => name:(value)
+
+__________________________________________
+
+a1:(2+1) | a2:(2+2) | a3:(2+2) | a3:(2+1)
+__________________________________________
+
+b1:(1+1) | b2:(1+2) | b3:(1+2) | b3:(1+1)
+__________________________________________
+
+
+For 3 rows and 5 columns, it would be like this:
+
+Position => name:(value)
+
+_____________________________________________________
+
+a1:(3+1) | a2:(3+2) | a3:(3+3) | a3:(3+2) | a3:(3+1)
+_____________________________________________________
+
+b1:(2+1) | b2:(2+2) | b3:(2+3) | b3:(2+2) | a3:(2+1)
+_____________________________________________________
+
+c1:(1+1) | c2:(1+2) | c3:(1+3) | c3:(1+2) | c3:(1+1)
+_____________________________________________________
+
+
 ## Steps for running the application
 
 1. Clone the repo > `git clone https://github.com/jvidalba1/concert_seats.git`

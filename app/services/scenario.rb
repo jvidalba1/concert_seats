@@ -16,6 +16,7 @@ class Scenario
 
     (1..@rows).to_a.reverse.each do |row|
       (1..@columns).to_a.each_with_index do |column, index|
+
         assign_seats(letter, (index+1).to_s, row, index_column)
 
         if index_column < @columns_peak && increment_index_column
