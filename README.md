@@ -7,7 +7,34 @@ Write a solution to return the best seat (closest to the front & middle) given a
 The list of open seats, number of rows and columns (seats) is based on a JSON input.
 
 ```
-{"venue": { "layout": { "rows": 10, "columns": 50 } }, "seats": { "a1": { "id": "a1", "row": "a", "column": 1, "status": "AVAILABLE" }, "b5": { "id": "b5", "row": "b", "column": 5, "status": "AVAILABLE" }, "h7": { "id": "h7", "row": "h", "column": 7, "status": "AVAILABLE"  } } }
+{
+  "venue": {
+    "layout": {
+      "rows": 10,
+      "columns": 50
+    }
+  },
+  "seats": {
+    "a1": {
+      "id": "a1",
+      "row": "a",
+      "column": 1,
+      "status": "AVAILABLE"
+    },
+    "b5": {
+      "id": "b5",
+      "row": "b",
+      "column": 5,
+      "status": "AVAILABLE"
+    },
+    "h7": {
+      "id": "h7",
+      "row": "h",
+      "column": 7,
+      "status": "AVAILABLE"
+    }
+  }
+}
 ```
 
 The solution should find the best open seat (closest to the front & middle) given the input JSON and number of requested seats. Imagine a concert, people want to be as close as possible to the stage.
